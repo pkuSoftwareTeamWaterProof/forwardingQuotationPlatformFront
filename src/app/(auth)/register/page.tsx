@@ -48,7 +48,8 @@ export default function Register() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(registerInfo), // body data type must match "Content-Type" header
-          })}}
+          })
+        }}
       >
         <TextField
           className="col-span-full"
