@@ -1,15 +1,23 @@
+"use client"
 import Link from 'next/link'
 
 import { Button } from '@/components/Button'
 import { SelectField, TextField } from '@/components/Fields'
 import { SlimLayout } from '@/components/SlimLayout'
 import { type Metadata } from 'next'
+import { useState } from 'react'
+import { apiURL } from '@/config'
 
-export const metadata: Metadata = {
+/*export const metadata: Metadata = {
   title: '注册',
-}
+}*/
 
 export default function Register() {
+  let [registerInfo, setRegisterInfo] = useState({
+    username: '',
+    password: '',
+    type: 'customer'
+  })
   return (
     <SlimLayout>
       <div className="flex">
@@ -30,27 +38,30 @@ export default function Register() {
       <form
         action="#"
         className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2"
+        onSubmit={ async (e) =>  {
+          e.preventDefault()
+          await fetch(apiURL + '/api/user/create', {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            headers: {
+              "accept": "*/*",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(registerInfo), // body data type must match "Content-Type" header
+          })
+        }}
       >
-        <TextField
-          label="名"
-          name="first_name"
-          type="text"
-          autoComplete="given-name"
-          required
-        />
-        <TextField
-          label="姓"
-          name="last_name"
-          type="text"
-          autoComplete="family-name"
-          required
-        />
         <TextField
           className="col-span-full"
           label="邮箱地址"
           name="email"
           type="email"
           autoComplete="email"
+          value={registerInfo.username}
+          onChange={(e) => setRegisterInfo({
+            ...registerInfo,
+            username: e.target.value
+          })}
           required
         />
         <TextField
@@ -59,10 +70,20 @@ export default function Register() {
           name="password"
           type="password"
           autoComplete="new-password"
+          value={registerInfo.password}
+          onChange={(e) => setRegisterInfo({
+            ...registerInfo,
+            password: e.target.value
+          })}
           required
         />
         <div className="col-span-full">
-          <Button type="submit" variant="solid" color="blue" className="w-full">
+          <Button 
+            type="submit" 
+            variant="solid" 
+            color="blue" 
+            className="w-full"
+          >
             <span>
               注册 <span aria-hidden="true">&rarr;</span>
             </span>
