@@ -1,26 +1,18 @@
-'use client'
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardSidebar } from "@/components/DashboardSidebar";
-import { useState } from "react";
-import NewRequest from "@/components/NewRequest";
+import { Content } from "@/components/Content";
+import { apiURL, sheet } from "@/config";
 
-function getContent(content: string) {
-  if(content === 'newRequest') {
-    return <NewRequest/>
-  } else {
-    return <></>
+export default async function CustomerDashboard({ params }: { params: { userName: string } }) {
+  let getRequests = async () => {
+    let response = await fetch(apiURL + '/api/sheet', {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+        "accept": "*\/*",
+      },
+    })
+    let requests = await response.json()
+    return requests
   }
-}
-
-export default function CustomerDashboard({ params }: { params: { userName: string } }) {
-  let [content, setContent] = useState('info')
-  return (
-      <>
-        <DashboardHeader/>
-        <DashboardSidebar setContent={setContent}/>
-        <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
-          { getContent(content) }
-        </div>
-      </>
-  )
+  let requests = await getRequests()
+  return <Content _requests={requests}/>
 }
