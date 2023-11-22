@@ -12,7 +12,7 @@ import { apiURL } from '@/config'
   title: '询价',
 }*/
 
-export default function NewRequest() {
+export default function NewRequest({ setContent }: { setContent: Function }) {
   let [requestInfo, setRequestInfo] = useState({
     startpoint: "",
     endpoint: "",
@@ -24,6 +24,7 @@ export default function NewRequest() {
     startdate: "",
     enddate: ""
   })
+
   return (
     <Layout>
       <div className="flex">
@@ -37,7 +38,7 @@ export default function NewRequest() {
         className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2"
         onSubmit={async (e) => {
           e.preventDefault()
-          await fetch(apiURL + '/sheet', {
+          await fetch(apiURL + '/api/sheet/create', {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             headers: {
@@ -46,6 +47,7 @@ export default function NewRequest() {
             },
             body: JSON.stringify(requestInfo), // body data type must match "Content-Type" header
           })
+          setContent('myRequests')
         }}
       >
         <TextField
