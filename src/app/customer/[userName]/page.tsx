@@ -14,5 +14,5 @@ export default async function CustomerDashboard({ params }: { params: { userName
     return requests
   }
   let requests = await getRequests()
-  return <Content _requests={requests}/>
+  return <Content _requests={requests} type="customer"/>
 }

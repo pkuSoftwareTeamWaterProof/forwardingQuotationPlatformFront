@@ -1,7 +1,7 @@
 'use client'
 import { apiURL, sheet } from "@/config"
 
-export function Requests({ requests, setRequests }: { requests: sheet[], setRequests: Function}) {
+export function Requests({ requests, setRequests, type }: { requests: sheet[], setRequests: Function, type: "firm" | "customer"}) {
   return (
     <div className="flex flex-col">
       <div className="-m-1.5 overflow-x-auto">
@@ -34,7 +34,7 @@ export function Requests({ requests, setRequests }: { requests: sheet[], setRequ
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{request.startdate}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{request.enddate}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                          <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Delete</button>
+                          <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">{type==="firm"?"报价":"删除"}</button>
                         </td>
                       </tr>
                     )
