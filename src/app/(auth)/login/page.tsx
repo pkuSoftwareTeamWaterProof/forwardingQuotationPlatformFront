@@ -1,15 +1,24 @@
+"use client"
 import Link from 'next/link'
 
 import { Button } from '@/components/Button'
 import { TextField } from '@/components/Fields'
 import { SlimLayout } from '@/components/SlimLayout'
 import { type Metadata } from 'next'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { apiURL } from '@/config'
 
-export const metadata: Metadata = {
+/*export const metadata: Metadata = {
   title: '登陆',
-}
+}*/
 
 export default function Login() {
+  let [loginInfo, setLoginInfo] = useState({
+    username: "",
+    password: ""
+  })
+  let router = useRouter()
   return (
     <SlimLayout>
       <div className="flex">
@@ -27,12 +36,36 @@ export default function Login() {
         </Link>{' '}
         以免费试用。
       </p>
-      <form action="#" className="mt-10 grid grid-cols-1 gap-y-8">
+      <form 
+        action="#" 
+        className="mt-10 grid grid-cols-1 gap-y-8"
+        onSubmit={async (e) => {
+          e.preventDefault()
+          await fetch(apiURL + '/api/user/getByName/' + loginInfo.username, {
+            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            headers: {
+              "accept": "*\/*",
+            },
+          })
+
+          // TODO: need a handler
+          router.push('/' + loginInfo.username)
+        }}
+      >
         <TextField
           label="邮箱地址"
           name="email"
           type="email"
           autoComplete="email"
+          value={loginInfo.username}
+          onChange={(e) => {
+            e.preventDefault()
+            setLoginInfo({
+              ...loginInfo,
+              username: e.target.value
+            })
+          }}
           required
         />
         <TextField
@@ -40,6 +73,14 @@ export default function Login() {
           name="password"
           type="password"
           autoComplete="current-password"
+          value={loginInfo.password}
+          onChange={(e) => {
+            e.preventDefault()
+            setLoginInfo({
+              ...loginInfo,
+              password: e.target.value
+            })
+          }}
           required
         />
         <div>
