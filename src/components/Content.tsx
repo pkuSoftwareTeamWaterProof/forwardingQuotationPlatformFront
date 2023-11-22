@@ -7,9 +7,9 @@ import NewRequest from "./NewRequest"
 import { Requests } from "./Requests"
 
 
-function getContent(requests: sheet[], setRequests: Function, content: string, type: "firm" | "customer") {
+function getContent(requests: sheet[], setRequests: Function, content: string, setContent: Function, type: "firm" | "customer") {
   if(content === 'newRequest') {
-    return <NewRequest/>
+    return <NewRequest setContent={setContent}/>
   } else if(content === 'myRequests') {
     return <Requests requests={requests} setRequests={setRequests} type={type}/>
   } else if(content === 'myAnswers') {
@@ -27,7 +27,7 @@ export function Content({ _requests, type }: { _requests: sheet[], type: 'firm' 
         <DashboardHeader/>
         <DashboardSidebar setContent={setContent} type={type}/>
         <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
-          { getContent(requests, setRequests, content, type) }
+          { getContent(requests, setRequests, content, setContent, type) }
         </div>
       </>
     )
