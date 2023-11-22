@@ -7,6 +7,7 @@ import { SlimLayout } from '@/components/SlimLayout'
 import { type Metadata } from 'next'
 import { useState } from 'react'
 import { apiURL } from '@/config'
+import { register } from 'module'
 
 /*export const metadata: Metadata = {
   title: '注册',
@@ -16,7 +17,7 @@ export default function Register() {
   let [registerInfo, setRegisterInfo] = useState({
     username: '',
     password: '',
-    type: 'customer'
+    type: ''
   })
   return (
     <SlimLayout>
@@ -50,7 +51,17 @@ export default function Register() {
             body: JSON.stringify(registerInfo), // body data type must match "Content-Type" header
           })
         }}
-      >
+          >
+        <SelectField
+          className="col-span-full"
+          label="请选择你的用户类型"
+          name="type"
+          form={registerInfo.type}
+        >
+          <option value="customer">customer</option>
+          <option value="forwarder">forwarder</option>
+          <option value="">else</option>
+        </SelectField>
         <TextField
           className="col-span-full"
           label="邮箱地址"
