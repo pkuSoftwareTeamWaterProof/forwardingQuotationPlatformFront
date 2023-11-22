@@ -4,7 +4,7 @@ import { Hero } from '@/components/Hero'
 export default function Home() {
   return (
     <>
-      <Header />
+      <Header logged={false}/>
       <main>
         <Hero />
       </main>

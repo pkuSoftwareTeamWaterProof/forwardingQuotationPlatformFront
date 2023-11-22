@@ -50,7 +50,7 @@ function MobileNavIcon({ open }: { open: boolean }) {
   )
 }
 
-function MobileNavigation() {
+function MobileNavigation({ logged }: { logged: boolean }) {
   return (
     <Popover>
       <Popover.Button
@@ -84,8 +84,21 @@ function MobileNavigation() {
             as="div"
             className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5"
           >
+            { logged? (
+              <>
+                <MobileNavLink href="#info">个人信息</MobileNavLink>
+                <MobileNavLink href="#requests">询价单</MobileNavLink>
+                <MobileNavLink href="#orders">订单</MobileNavLink>
+              </>
+            ): (
+              <></>
+            )}
             <hr className="m-2 border-slate-300/40" />
-            <MobileNavLink href="/login">登陆</MobileNavLink>
+            { logged? (
+              <></>
+            ): (
+              <MobileNavLink href="/login">登陆</MobileNavLink>
+            )}
           </Popover.Panel>
         </Transition.Child>
       </Transition.Root>
@@ -93,24 +106,39 @@ function MobileNavigation() {
   )
 }
 
-export function Header() {
+export function Header({ logged }: { logged: boolean }) {
   return (
     <header className="py-10">
       <Container>
         <nav className="relative z-50 flex justify-between">
           <div className="flex items-center md:gap-x-12">
+            { logged? ( 
+              <div className="hidden md:flex md:gap-x-6">
+                <NavLink href="#info">个人信息</NavLink>
+                <NavLink href="#requests">询价单</NavLink>
+                <NavLink href="#orders">订单</NavLink>
+              </div>
+            ): (
+              <></>
+            )}
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">
-            <div className="hidden md:block">
-              <NavLink href="/login">登陆</NavLink>
-            </div>
-            <Button href="/register" color="blue">
-              <span>
-                免费体验 <span className="hidden lg:inline"></span>
-              </span>
-            </Button>
+            { logged? (
+              <></>
+            ): (
+              <>
+                <div className="hidden md:block">
+                  <NavLink href="/login">登陆</NavLink>
+                </div>
+                <Button href="/register" color="blue">
+                  <span>
+                    免费体验 <span className="hidden lg:inline"></span>
+                  </span>
+                </Button>
+              </>
+            )}
             <div className="-mr-1 md:hidden">
-              <MobileNavigation />
+              <MobileNavigation logged={logged}/>
             </div>
           </div>
         </nav>
