@@ -12,7 +12,7 @@ import { apiURL } from '@/config'
   title: '询价',
 }*/
 
-export default function Request() {
+export default function NewRequest() {
   let [requestInfo, setRequestInfo] = useState({
     startpoint: "",
     endpoint: "",
