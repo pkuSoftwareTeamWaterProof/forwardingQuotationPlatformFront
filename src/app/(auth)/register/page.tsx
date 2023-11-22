@@ -51,7 +51,7 @@ export default function Register() {
             body: JSON.stringify(registerInfo), // body data type must match "Content-Type" header
           })
         }}
-          >
+      >
         <SelectField
           className="col-span-full"
           label="请选择你的用户类型"
@@ -95,9 +95,13 @@ export default function Register() {
             color="blue" 
             className="w-full"
           >
-            <span>
-              注册 <span aria-hidden="true">&rarr;</span>
-            </span>
+            <Link
+              href="/login"
+            >
+              <span>
+                注册 <span aria-hidden="true">&rarr;</span>
+              </span>
+            </Link>{' '}
           </Button>
         </div>
       </form>

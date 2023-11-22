@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import Link from 'next/link'
 
 import { Button } from '@/components/Button'
@@ -10,30 +10,28 @@ import { apiURL } from '@/config'
 import { register } from 'module'
 
 /*export const metadata: Metadata = {
-    title: '��˾��Ϣ',
+    title: '公司信息',
 }*/
 
 export default function firm_Register() {
     let [firmRegister, setFirmRegister] = useState({
         name: '',
-        description: '',
-        createdAt: '',
-        updatedAt: ''
+        description: ''
     })
     return (
         <SlimLayout>
             <div className="flex">
             </div>
             <h2 className="mt-20 text-lg font-semibold text-gray-900">
-                Add Firm Information
+                添加公司信息
             </h2>
             <p className="mt-2 text-sm text-gray-700">
-                Fill it out later?{' '}
+                稍后填写？{' '}
                 <Link
                     href=""
                     className="font-medium text-blue-600 hover:underline"
                 >
-                    skip
+                    跳过
                 </Link>{' '}
             </p>
             <form
@@ -41,7 +39,7 @@ export default function firm_Register() {
                 className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2"
                 onSubmit={async (e) => {
                     e.preventDefault()
-                    await fetch(apiURL + '/api/user/create', {
+                    await fetch(apiURL + '/api/firm/create', {
                         method: "POST", // *GET, POST, PUT, DELETE, etc.
                         mode: "cors", // no-cors, *cors, same-origin
                         headers: {
@@ -54,7 +52,7 @@ export default function firm_Register() {
             >
                 <TextField
                     className="col-span-full"
-                    label="Firm name"
+                    label="公司名"
                     name="name"
                     type="name"
                     autoComplete="name"
@@ -67,7 +65,7 @@ export default function firm_Register() {
                 />
                 <TextField
                     className="col-span-full"
-                    label="Description"
+                    label="描述"
                     name="description"
                     type="description"
                     autoComplete="description"
@@ -75,32 +73,6 @@ export default function firm_Register() {
                     onChange={(e) => setFirmRegister({
                         ...firmRegister,
                         description: e.target.value
-                    })}
-                    required
-                />
-                <TextField
-                    className="col-span-full"
-                    label="CreateDate"
-                    name="createdAt"
-                    type="createdAt"
-                    autoComplete="createdAt"
-                    value={firmRegister.createdAt}
-                    onChange={(e) => setFirmRegister({
-                        ...firmRegister,
-                        createdAt: e.target.value
-                    })}
-                    required
-                />
-                <TextField
-                    className="col-span-full"
-                    label="UpdateDate"
-                    name="updatedAt"
-                    type="updatedAt"
-                    autoComplete="updatedAt"
-                    value={firmRegister.updatedAt}
-                    onChange={(e) => setFirmRegister({
-                        ...firmRegister,
-                        updatedAt: e.target.value
                     })}
                     required
                 />
@@ -112,7 +84,7 @@ export default function firm_Register() {
                         className="w-full"
                     >
                         <span>
-                            Finish <span aria-hidden="true">&rarr;</span>
+                            完成 <span aria-hidden="true">&rarr;</span>
                         </span>
                     </Button>
                 </div>
