@@ -97,7 +97,7 @@ function MobileNavigation({ logged }: { logged: boolean }) {
             { logged? (
               <></>
             ): (
-              <MobileNavLink href="/login">登陆</MobileNavLink>
+              <MobileNavLink href="/login">登录</MobileNavLink>
             )}
           </Popover.Panel>
         </Transition.Child>
@@ -128,7 +128,7 @@ export function Header({ logged }: { logged: boolean }) {
             ): (
               <>
                 <div className="hidden md:block">
-                  <NavLink href="/login">登陆</NavLink>
+                  <NavLink href="/login">登录</NavLink>
                 </div>
                 <Button href="/register" color="blue">
                   <span>
