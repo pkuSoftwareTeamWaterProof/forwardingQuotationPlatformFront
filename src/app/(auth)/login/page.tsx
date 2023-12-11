@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { apiURL } from '@/config'
 
 /*export const metadata: Metadata = {
-  title: '登陆',
+  title: '登录',
 }*/
 
 export default function Login() {
@@ -24,7 +24,7 @@ export default function Login() {
       <div className="flex">
       </div>
       <h2 className="mt-20 text-lg font-semibold text-gray-900">
-        登陆到您的账户
+        登录到您的账户
       </h2>
       <p className="mt-2 text-sm text-gray-700">
         还没有账户？{' '}
@@ -86,7 +86,7 @@ export default function Login() {
         <div>
           <Button type="submit" variant="solid" color="blue" className="w-full">
             <span>
-              登陆 <span aria-hidden="true">&rarr;</span>
+              登录 <span aria-hidden="true">&rarr;</span>
             </span>
           </Button>
         </div>

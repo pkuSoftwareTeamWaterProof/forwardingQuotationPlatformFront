@@ -31,7 +31,7 @@ export default function Register() {
           href="/login"
           className="font-medium text-blue-600 hover:underline"
         >
-          登陆
+          登录
         </Link>{' '}
         到您的账户。
       </p>
