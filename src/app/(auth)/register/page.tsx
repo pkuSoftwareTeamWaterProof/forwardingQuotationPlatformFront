@@ -16,7 +16,9 @@ export default function Register() {
   let [registerInfo, setRegisterInfo] = useState({
     username: '',
     password: '',
-    type: 'customer'
+    role: '',
+    telephone:'',
+    email:''
   })
   return (
     <SlimLayout>
@@ -50,13 +52,29 @@ export default function Register() {
             body: JSON.stringify(registerInfo), // body data type must match "Content-Type" header
           })
         }}
-      >
+          >
+        <SelectField
+          className="col-span-full"
+          label="选择你的用户类型"
+          name="role"
+          autoComplete="organization-title"
+          value={registerInfo.role}
+          onChange={(e) => setRegisterInfo({
+            ...registerInfo,
+            role: e.target.value
+          })}
+          required
+        >
+          <option selected>请选择</option>
+          <option>customer</option>
+          <option>forwarder</option>
+        </SelectField>
         <TextField
           className="col-span-full"
-          label="邮箱地址"
-          name="email"
-          type="email"
-          autoComplete="email"
+          label="用户名"
+          name="username"
+          type="username"
+          autoComplete="username"
           value={registerInfo.username}
           onChange={(e) => setRegisterInfo({
             ...registerInfo,
@@ -77,17 +95,48 @@ export default function Register() {
           })}
           required
         />
+        <TextField
+          className="col-span-full"
+          label="电话"
+          name="telephone"
+          type="telephone"
+          autoComplete="tel"
+          value={registerInfo.telephone}
+          onChange={(e) => setRegisterInfo({
+            ...registerInfo,
+            telephone: e.target.value
+          })}
+          required
+        />
+        <TextField
+          className="col-span-full"
+          label="邮箱"
+          name="email"
+          type="email"
+          autoComplete="email"
+          value={registerInfo.email}
+          onChange={(e) => setRegisterInfo({
+            ...registerInfo,
+            email: e.target.value
+          })}
+          required
+        />
         <div className="col-span-full">
-          <Button 
-            type="submit" 
-            variant="solid" 
-            color="blue" 
-            className="w-full"
-          >
-            <span>
-              注册 <span aria-hidden="true">&rarr;</span>
-            </span>
-          </Button>
+          <Link
+            href="/login"
+            className="font-medium text-blue-600 hover:underline"
+          >       
+            <Button 
+              type="submit" 
+              variant="solid" 
+              color="blue" 
+              className="w-full"
+            >
+              <span>
+                注册 <span aria-hidden="true">&rarr;</span>
+              </span>
+            </Button>
+          </Link>
         </div>
       </form>
     </SlimLayout>
