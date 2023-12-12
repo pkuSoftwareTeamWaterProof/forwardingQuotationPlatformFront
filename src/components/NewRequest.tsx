@@ -7,6 +7,7 @@ import { Layout } from '@/components/Layout'
 import { type Metadata } from 'next'
 import { useState } from 'react'
 import { apiURL } from '@/config'
+import { getCookie } from 'cookies-next'
 
 /*export const metadata: Metadata = {
   title: '询价',
@@ -22,14 +23,12 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
     type_of_shipping: "",
     remark: "",
     startdate: "",
-    enddate: ""
+    enddate: "",
+    customerID: getCookie('id')
   })
 
   return (
     <Layout>
-      <div className="flex">
-        { /* logo */ }
-      </div>
       <h2 className="mt-20 text-lg font-semibold text-gray-900">
         填写询价单
       </h2>
