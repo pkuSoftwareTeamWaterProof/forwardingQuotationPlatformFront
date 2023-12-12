@@ -28,8 +28,8 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
   })
 
   return (
-    <Layout>
-      <h2 className="mt-20 text-lg font-semibold text-gray-900">
+    <>
+      <h2 className="mt-0 text-lg font-semibold text-gray-900">
         填写询价单
       </h2>
       <form
@@ -159,6 +159,6 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
           </Button>
         </div>
       </form>
-    </Layout>
+    </>
   )
 }
