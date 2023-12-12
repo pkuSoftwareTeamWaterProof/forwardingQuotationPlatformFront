@@ -7,6 +7,7 @@ import { SlimLayout } from '@/components/SlimLayout'
 import { type Metadata } from 'next'
 import { useState } from 'react'
 import { apiURL } from '@/config'
+import { useRouter } from 'next/navigation'
 
 /*export const metadata: Metadata = {
   title: '注册',
@@ -16,8 +17,11 @@ export default function Register() {
   let [registerInfo, setRegisterInfo] = useState({
     username: '',
     password: '',
-    type: 'customer'
+    role: '',
+    telephone:'',
+    email:''
   })
+  let router = useRouter()
   return (
     <SlimLayout>
       <div className="flex">
@@ -36,11 +40,10 @@ export default function Register() {
         到您的账户。
       </p>
       <form
-        action="#"
         className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2"
         onSubmit={ async (e) =>  {
           e.preventDefault()
-          await fetch(apiURL + '/api/user/create', {
+          const response = await fetch(apiURL + '/api/user/create', {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             headers: {
@@ -49,14 +52,35 @@ export default function Register() {
             },
             body: JSON.stringify(registerInfo), // body data type must match "Content-Type" header
           })
+          if(response.status === 201) {
+            router.push("/login")
+          } else if(response.status === 409){
+            alert("用户名已被占用！")
+          }
         }}
-      >
+          >
+        <SelectField
+          className="col-span-full"
+          label="用户类型"
+          name="role"
+          autoComplete="organization-title"
+          value={registerInfo.role}
+          onChange={(e) => setRegisterInfo({
+            ...registerInfo,
+            role: e.target.value
+          })}
+          required
+        >
+          <option selected>请选择</option>
+          <option>customer</option>
+          <option>forwarder</option>
+        </SelectField>
         <TextField
           className="col-span-full"
-          label="邮箱地址"
-          name="email"
-          type="email"
-          autoComplete="email"
+          label="用户名"
+          name="username"
+          type="username"
+          autoComplete="username"
           value={registerInfo.username}
           onChange={(e) => setRegisterInfo({
             ...registerInfo,
@@ -74,6 +98,32 @@ export default function Register() {
           onChange={(e) => setRegisterInfo({
             ...registerInfo,
             password: e.target.value
+          })}
+          required
+        />
+        <TextField
+          className="col-span-full"
+          label="电话"
+          name="telephone"
+          type="telephone"
+          autoComplete="tel"
+          value={registerInfo.telephone}
+          onChange={(e) => setRegisterInfo({
+            ...registerInfo,
+            telephone: e.target.value
+          })}
+          required
+        />
+        <TextField
+          className="col-span-full"
+          label="邮箱"
+          name="email"
+          type="email"
+          autoComplete="email"
+          value={registerInfo.email}
+          onChange={(e) => setRegisterInfo({
+            ...registerInfo,
+            email: e.target.value
           })}
           required
         />
