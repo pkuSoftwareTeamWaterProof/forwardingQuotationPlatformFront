@@ -1,7 +1,22 @@
 'use client'
 import { apiURL, sheet } from "@/config"
+import { getCookie, getCookies } from "cookies-next"
+import { useEffect, useState } from "react"
 
-export function Requests({ requests, setRequests, type }: { requests: sheet[], setRequests: Function, type: "firm" | "customer"}) {
+export function Requests({ type }: { type: "firm" | "customer"}) {
+  const [requests, setRequests] = useState([])
+  useEffect(() => {
+    fetch(apiURL + '/api/sheet/list/' + getCookie('id'), {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      headers: {
+        "accept": "*/*",
+        "Content-Type": "application/json",
+      },
+    }).then(res => res.json())
+      .then(data => setRequests(data))
+  }, [])
+  
   return (
     <div className="flex flex-col">
       <div className="-m-1.5 overflow-x-auto">

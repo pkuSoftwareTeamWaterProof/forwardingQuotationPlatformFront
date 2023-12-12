@@ -8,6 +8,7 @@ import { type Metadata } from 'next'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { apiURL } from '@/config'
+import { getCookie, getCookies, setCookie } from 'cookies-next'
 
 /*export const metadata: Metadata = {
   title: '登录',
@@ -41,23 +42,40 @@ export default function Login() {
         className="mt-10 grid grid-cols-1 gap-y-8"
         onSubmit={async (e) => {
           e.preventDefault()
-          await fetch(apiURL + '/api/user/getByName/' + loginInfo.username, {
+
+          const response = await fetch(apiURL + '/api/auth/login', {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            headers: {
+              "accept": "*/*",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginInfo), // body data type must match "Content-Type" header
+          })
+          const jwt_token = (await response.json()).access_token
+          setCookie("jwt_token", jwt_token)
+
+          const _response = await fetch(apiURL + '/api/user/me', {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             headers: {
-              "accept": "*\/*",
+              "accept": "*/*",
+              "Content-Type": "application/json",
+              "Authorization": jwt_token
             },
           })
-
-          // TODO: need a handler
-          router.push('/' + loginInfo.username)
+          const userInfo = await _response.json()
+          for (const k in userInfo) {
+            setCookie(k, userInfo[k])
+          }
+          
+          router.push('/' + userInfo.role + '/' + userInfo.username)
         }}
       >
         <TextField
-          label="邮箱地址"
-          name="email"
-          type="email"
-          autoComplete="email"
+          label="用户名"
+          name="username"
+          type="username"
           value={loginInfo.username}
           onChange={(e) => {
             e.preventDefault()
