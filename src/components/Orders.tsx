@@ -22,6 +22,8 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
   useEffect(() => { 
     // console.log('orders changed!!!!!!!!!!!!')
     // console.log(orders)
+    const newSheets: sheet[] = []
+    const newAnswers: answer[] = []
     for (const order of orders) {
         // console.log(order)
         fetch(apiURL + '/api/sheet/' + order['sheetId'], {
@@ -32,7 +34,7 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
               "Content-Type": "application/json",
             },
         }).then(res => res.json())
-          .then(data => setSheets(sheets.concat([data])))
+          .then(data => newSheets.push(data))
         // console.log(sheets)
 
         fetch(apiURL + '/api/answer/' + order['answerId'], {
@@ -43,9 +45,11 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
               "Content-Type": "application/json",
             },
         }).then(res => res.json())
-          .then(data => setAnswers(answers.concat([data])))
+          .then(data => newSheets.push(data))
         // console.log(answers)
     }
+    setSheets(newSheets)
+    setAnswers(newAnswers)
   }, [orders])
   // console.log(orders)
   // console.log(sheets)
