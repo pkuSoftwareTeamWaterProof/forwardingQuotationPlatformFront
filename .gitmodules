@@ -1,0 +1,3 @@
+[submodule "src/addresses"]
+	path = src/addresses
+	url = https://github.com/wizardcode/world-area.git
