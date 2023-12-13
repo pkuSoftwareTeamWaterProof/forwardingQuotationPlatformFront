@@ -8,6 +8,7 @@ import { type Metadata } from 'next'
 import { useState } from 'react'
 import { apiURL } from '@/config'
 import { getCookie } from 'cookies-next'
+import { AddressSelector } from './AddressSelector'
 
 /*export const metadata: Metadata = {
   title: '询价',
@@ -24,7 +25,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
     remark: "",
     startdate: "",
     enddate: "",
-    customerID: getCookie('id')
+    customerID: getCookie('id') as string
   })
 
   return (
@@ -49,44 +50,27 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
           setContent('myRequests')
         }}
       >
-        <TextField
-          className="col-span-full"
-          label="起点"
-          name="source"
-          type="text"
-          value={requestInfo.startpoint}
-          onChange={(e) => setRequestInfo({
-            ...requestInfo,
-            startpoint: e.target.value
-          })}
-          required
-        />
-        <TextField
-          className="col-span-full"
-          label="终点"
-          name="destiantion"
-          type="text"
-          value={requestInfo.endpoint}
-          onChange={(e) => setRequestInfo({
-            ...requestInfo,
-            endpoint: e.target.value
-          })}
-          required
-        />
-        <TextField
+        <AddressSelector requestInfo={requestInfo} setRequestInfo={setRequestInfo} start={true}/>
+        <AddressSelector requestInfo={requestInfo} setRequestInfo={setRequestInfo} start={false}/>
+        <SelectField
           label="运输方式"
           name="way"
-          type="text"
+          level={0}
           value={requestInfo.type_of_shipping}
           onChange={(e) => setRequestInfo({
             ...requestInfo,
             type_of_shipping: e.target.value
           })}
           required
-        />
+        >
+          <option selected>请选择</option>
+          <option >空运</option>
+          <option >海运</option>
+        </SelectField>
         <TextField
           label="类别"
           name="type"
+          level={0}
           type="text"
           value={requestInfo.species}
           onChange={(e) => setRequestInfo({
@@ -98,6 +82,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
         <TextField
           label="重量"
           name="weight"
+          level={0}
           type="text"
           value={requestInfo.weight}
           onChange={(e) => setRequestInfo({
@@ -109,6 +94,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
         <TextField
           label="体积"
           name="size"
+          level={0}
           type="text"
           value={requestInfo.size}
           onChange={(e) => setRequestInfo({
@@ -120,6 +106,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
         <TextField
           label="起始时间"
           name="start"
+          level={0}
           type="text"
           value={requestInfo.startdate}
           onChange={(e) => setRequestInfo({
@@ -131,6 +118,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
         <TextField
           label="终止时间"
           name="end"
+          level={0}
           type="text"
           value={requestInfo.enddate}
           onChange={(e) => setRequestInfo({
@@ -142,6 +130,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
         <TextField
           className="col-span-full"
           label="备注"
+          level={0}
           name="remark"
           type="text"
           value={requestInfo.remark}
