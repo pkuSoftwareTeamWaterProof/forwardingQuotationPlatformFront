@@ -5,6 +5,7 @@ import { DashboardSidebar } from "./DashboardSidebar"
 import NewRequest from "./NewRequest"
 import { Requests } from "./Requests"
 import { getCookie } from "cookies-next"
+import { Info } from "./Info"
 
 
 function getContent(content: string, setContent: Function, type: "firm" | "customer") {
@@ -14,6 +15,8 @@ function getContent(content: string, setContent: Function, type: "firm" | "custo
     return <Requests type={type}/>
   } else if(content === 'myAnswers') {
     return <></>
+  } else if(content === "info") {
+    return <Info />
   } else {
     return <></>
   }
