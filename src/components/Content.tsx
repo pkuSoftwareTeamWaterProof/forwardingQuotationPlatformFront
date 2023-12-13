@@ -11,7 +11,7 @@ import { Info } from "./Info"
 function getContent(content: string, setContent: Function, type: "firm" | "customer") {
   if(content === 'newRequest') {
     return <NewRequest setContent={setContent}/>
-  } else if(content === 'myRequests') {
+  } else if(content === 'requests') {
     return <Requests type={type}/>
   } else if(content === 'myAnswers') {
     return <></>

@@ -2,19 +2,34 @@
 import { apiURL, sheet } from "@/config"
 import { getCookie, getCookies } from "cookies-next"
 import { useEffect, useState } from "react"
+import { AnswerForm } from "./AnswerForm"
+import { Princess_Sofia } from "next/font/google"
 
 export function Requests({ type }: { type: "firm" | "customer"}) {
   const [requests, setRequests] = useState([])
+  const [curPrice, setCurPrice] = useState(0)
   useEffect(() => {
-    fetch(apiURL + '/api/sheet/list/' + getCookie('id'), {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      headers: {
-        "accept": "*/*",
-        "Content-Type": "application/json",
-      },
-    }).then(res => res.json())
-      .then(data => setRequests(data))
+    if(type === 'customer') {
+      fetch(apiURL + '/api/sheet/list/' + getCookie('id'), {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          "accept": "*/*",
+          "Content-Type": "application/json",
+        },
+      }).then(res => res.json())
+        .then(data => setRequests(data))
+    } else {
+      fetch(apiURL + '/api/sheet', {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          "accept": "*/*",
+          "Content-Type": "application/json",
+        },
+      }).then(res => res.json())
+        .then(data => setRequests(data))
+    }
   }, [])
   
   return (
@@ -49,6 +64,7 @@ export function Requests({ type }: { type: "firm" | "customer"}) {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{request.startdate}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{request.enddate}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                          {type === 'firm' && <AnswerForm setCurPrice={setCurPrice} />}
                           <button 
                             type="button" 
                             className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
@@ -70,9 +86,24 @@ export function Requests({ type }: { type: "firm" | "customer"}) {
                                   "Content-Type": "application/json",
                                 },
                               }).then(res => res.json()))
-                            }): (
-                              undefined
-                            )}
+                            }): (async (e) => {
+                              e.preventDefault()
+                              await fetch(apiURL + '/api/answer/create', {
+                                method: "POST",
+                                mode: "cors",
+                                headers: {
+                                  "accept": "*/*",
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  "price": curPrice, 
+                                  "remark": "", 
+                                  "Sheetid": request.id,
+                                  "forwarderID": getCookie('id')
+                                })
+                              })
+                              alert("报价成功")
+                            })}
                           >
                             {type==="firm"?"报价":"删除"}
                           </button>
