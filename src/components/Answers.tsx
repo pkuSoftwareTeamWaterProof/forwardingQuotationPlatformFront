@@ -1,32 +1,28 @@
 'use client'
-import { answer, apiURL, order, sheet } from "@/config"
+import { answer, apiURL, sheet } from "@/config"
 import { getCookie, getCookies } from "cookies-next"
 import { useEffect, useState } from "react"
+import { Princess_Sofia } from "next/font/google"
 
-export function Orders({ type }: { type: "firm" | "customer"}) {
-  const [orders, setOrders]: [order[], Function] = useState([])
+export function Answers() {
+  const [answers, setAnswers] = useState([])
   const [sheets, setSheets]: [sheet[], Function] = useState([])
-  const [answers, setAnswers]: [answer[], Function] = useState([])
   useEffect(() => {
-    fetch(apiURL + '/api/order/' + (type === 'firm'? 'forwardid/': 'cusromerid/') + getCookie('id'), {
+      fetch(apiURL + '/api/answer/list/' + getCookie('id'), {
         method: "GET", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
         headers: {
           "accept": "*/*",
           "Content-Type": "application/json",
         },
-    }).then(res => res.json())
-      .then(data => setOrders(data))
+      }).then(res => res.json())
+        .then(data => setAnswers(data))
   }, [])
-    
-  useEffect(() => {(async () => { 
-    // console.log('orders changed!!!!!!!!!!!!')
-    // console.log(orders)
+
+  useEffect(() => {(async () => {
     const newSheets: sheet[] = []
-    const newAnswers: answer[] = []
-    for (const order of orders) {
-        // console.log(order)
-        await fetch(apiURL + '/api/sheet/' + order['sheetId'], {
+    for (const answer of answers) {
+        await fetch(apiURL + '/api/sheet/' + answer['sheetID'], {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             headers: {
@@ -35,25 +31,9 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
             },
         }).then(res => res.json())
           .then(data => newSheets.push(data))
-        // console.log(sheets)
-
-        await fetch(apiURL + '/api/answer/' + order['answerId'], {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            headers: {
-              "accept": "*/*",
-              "Content-Type": "application/json",
-            },
-        }).then(res => res.json())
-          .then(data => newAnswers.push(data))
-        // console.log(answers)
     }
     setSheets(newSheets)
-    setAnswers(newAnswers)
-  })()}, [orders])
-  // console.log(orders)
-  // console.log(sheets)
-  // console.log(answers)
+  })()}, [answers])
   
   return (
     <div className="flex flex-col">
@@ -76,14 +56,10 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {
-                  Array.from(orders).map((order: order) => {
-                    const sheet: sheet = sheets.filter(sheet => sheet.id === order.sheetId)[0]
-                    const answer: answer = answers.filter(answer => answer.id === order.answerId)[0]
-                    // console.log(order)
-                    // console.log(sheet)
-                    // console.log(answer)
-                    return (sheet && answer &&
-                      <tr key={order.id}>
+                  Array.from(answers).map((answer: answer) => {
+                    const sheet = sheets.filter(sheet => sheet.id === answer.sheetID)[0]
+                    return( sheet &&
+                      <tr key={answer.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.startpoint}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.endpoint}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.type_of_shipping}</td>
@@ -93,9 +69,8 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.startdate}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.enddate}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{answer.price}</td>
-                      </tr>)
-                    
-                    }
+                      </tr>
+                    )}
                   )
                 }
               </tbody>
