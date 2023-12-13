@@ -75,6 +75,7 @@ export default function Login() {
         <TextField
           label="用户名"
           name="username"
+          level={1}
           type="username"
           value={loginInfo.username}
           onChange={(e) => {
@@ -89,6 +90,7 @@ export default function Login() {
         <TextField
           label="密码"
           name="password"
+          level={1}
           type="password"
           autoComplete="current-password"
           value={loginInfo.password}
