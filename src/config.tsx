@@ -16,6 +16,7 @@ export interface request {
   }
 
 export interface sheet {
+    id: string,
     startpoint: string,
     endpoint: string,
     type_of_shipping: string,
