@@ -30,6 +30,23 @@ export interface sheet {
     updatedAt?: string
 }
 
+export interface order {
+    id: string,
+    sheetId: string,
+    answerId: string,
+    context: string
+}
+
+export interface answer {
+    id: string,
+    remark: string,
+    price: number,
+    sheetID: string,
+    createdAt: string,
+    updatedAt: string,
+    forwarderID: string
+}
+
 export type address = country | state | city | region;
 
 export interface country {

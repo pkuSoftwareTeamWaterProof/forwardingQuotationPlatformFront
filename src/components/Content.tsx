@@ -6,6 +6,7 @@ import NewRequest from "./NewRequest"
 import { Requests } from "./Requests"
 import { getCookie } from "cookies-next"
 import { Info } from "./Info"
+import { Orders } from "./Orders"
 
 
 function getContent(content: string, setContent: Function, type: "firm" | "customer") {
@@ -17,6 +18,8 @@ function getContent(content: string, setContent: Function, type: "firm" | "custo
     return <></>
   } else if(content === "info") {
     return <Info />
+  } else if(content === "orders") {
+    return <Orders type={type} />
   } else {
     return <></>
   }
