@@ -53,9 +53,11 @@ export default function Login() {
             body: JSON.stringify(loginInfo), // body data type must match "Content-Type" header
           })
           const jwt_token = (await response.json()).access_token
+          // console.log(jwt_token)
           setCookie("jwt_token", jwt_token)
 
-          const _response = await fetch(apiURL + '/api/user/me', {
+          // depend on further fix of backend
+          const _response = await fetch(apiURL + '/api/user/getByName/' + loginInfo.username, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             headers: {
