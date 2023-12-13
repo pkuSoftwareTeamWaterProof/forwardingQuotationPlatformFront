@@ -47,7 +47,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
             },
             body: JSON.stringify(requestInfo), // body data type must match "Content-Type" header
           })
-          setContent('myRequests')
+          setContent('requests')
         }}
       >
         <AddressSelector requestInfo={requestInfo} setRequestInfo={setRequestInfo} start={true}/>
