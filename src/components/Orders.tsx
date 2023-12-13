@@ -19,14 +19,14 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
       .then(data => setOrders(data))
   }, [])
     
-  useEffect(() => { 
+  useEffect(() => {(async () => { 
     // console.log('orders changed!!!!!!!!!!!!')
     // console.log(orders)
     const newSheets: sheet[] = []
     const newAnswers: answer[] = []
     for (const order of orders) {
         // console.log(order)
-        fetch(apiURL + '/api/sheet/' + order['sheetId'], {
+        await fetch(apiURL + '/api/sheet/' + order['sheetId'], {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             headers: {
@@ -37,7 +37,7 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
           .then(data => newSheets.push(data))
         // console.log(sheets)
 
-        fetch(apiURL + '/api/answer/' + order['answerId'], {
+        await fetch(apiURL + '/api/answer/' + order['answerId'], {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             headers: {
@@ -45,12 +45,12 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
               "Content-Type": "application/json",
             },
         }).then(res => res.json())
-          .then(data => newSheets.push(data))
+          .then(data => newAnswers.push(data))
         // console.log(answers)
     }
     setSheets(newSheets)
     setAnswers(newAnswers)
-  }, [orders])
+  })()}, [orders])
   // console.log(orders)
   // console.log(sheets)
   // console.log(answers)
