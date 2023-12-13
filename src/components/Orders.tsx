@@ -8,28 +8,22 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
   const [sheets, setSheets]: [sheet[], Function] = useState([])
   const [answers, setAnswers]: [answer[], Function] = useState([])
   useEffect(() => {
-    if(type === 'customer') {
-      fetch(apiURL + '/api/order/cusromerid/' + getCookie('id'), {
+    fetch(apiURL + '/api/order/' + (type === 'firm'? 'forwardid/': 'cusromerid/') + getCookie('id'), {
         method: "GET", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
         headers: {
           "accept": "*/*",
           "Content-Type": "application/json",
         },
-      }).then(res => res.json())
-        .then(data => setOrders(data))
-    } else {
-      fetch(apiURL + '/api/order/forwardid/' + getCookie('id'), {
-        method: "GET", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, *cors, same-origin
-        headers: {
-          "accept": "*/*",
-          "Content-Type": "application/json",
-        },
-      }).then(res => res.json())
-        .then(data => setOrders(data))
-    }
+    }).then(res => res.json())
+      .then(data => setOrders(data))
+  }, [])
+    
+  useEffect(() => { 
+    // console.log('orders changed!!!!!!!!!!!!')
+    // console.log(orders)
     for (const order of orders) {
+        // console.log(order)
         fetch(apiURL + '/api/sheet/' + order['sheetId'], {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
@@ -38,7 +32,8 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
               "Content-Type": "application/json",
             },
         }).then(res => res.json())
-          .then(data => setSheets(sheets.push(data)))
+          .then(data => setSheets(sheets.concat([data])))
+        // console.log(sheets)
 
         fetch(apiURL + '/api/answer/' + order['answerId'], {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
@@ -48,9 +43,13 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
               "Content-Type": "application/json",
             },
         }).then(res => res.json())
-          .then(data => setAnswers(answers.push(data)))
+          .then(data => setAnswers(answers.concat([data])))
+        // console.log(answers)
     }
-  }, [])
+  }, [orders])
+  // console.log(orders)
+  // console.log(sheets)
+  // console.log(answers)
   
   return (
     <div className="flex flex-col">
@@ -76,10 +75,10 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
                   Array.from(orders).map((order: order) => {
                     const sheet: sheet = sheets.filter(sheet => sheet.id === order.sheetId)[0]
                     const answer: answer = answers.filter(answer => answer.id === order.answerId)[0]
-                    console.log(order)
-                    console.log(sheet)
-                    console.log(answer)
-                    return (
+                    // console.log(order)
+                    // console.log(sheet)
+                    // console.log(answer)
+                    return (sheet && answer &&
                       <tr key={order.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.startpoint}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.endpoint}</td>
