@@ -107,6 +107,7 @@ function MobileNavigation({ logged }: { logged: boolean }) {
 }
 
 export function Header({ logged }: { logged: boolean }) {
+
   return (
     <header className="py-10">
       <Container>

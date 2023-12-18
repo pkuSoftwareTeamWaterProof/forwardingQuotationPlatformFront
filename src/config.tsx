@@ -74,3 +74,22 @@ export interface region {
     lower_name: string,
     code_full: string
 }
+
+export interface answer {
+    id?: string,
+    remark: string,
+    price: string,
+    sheetID: string,
+    Sheetid: string,
+    createdAt?: string,
+    updateAt?: string
+    forwarderID?: string
+}
+
+export interface order {
+    sheetId: string,
+    answerId: string,
+    context: string,
+    createdAt?: string,
+    updateAt?: string
+}

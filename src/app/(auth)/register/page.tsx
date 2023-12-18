@@ -70,10 +70,11 @@ export default function Register() {
             role: e.target.value
           })}
           required
-        >
+         >
           <option selected>请选择</option>
-          <option>customer</option>
-          <option>forwarder</option>
+          <option value='customer'>货主</option>
+          <option value='forwarder'>货代</option>
+
         </SelectField>
         <TextField
           className="col-span-full"

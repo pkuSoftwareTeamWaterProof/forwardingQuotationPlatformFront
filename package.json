@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "antd": "^5.12.2",
     "clsx": "^2.0.0",
     "cookies-next": "^4.1.0",
+    "dayjs": "^1.11.10",
+    "moment": "^2.29.4",
     "next": "13.5.4",
     "preline": "^1.9.0",
     "react": "^18",
