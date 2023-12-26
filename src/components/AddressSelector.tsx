@@ -10,6 +10,7 @@ export function AddressSelector({requestInfo, setRequestInfo, start}: {requestIn
     country: ""
   })
   const [curCountryList, setCurCountryList] = useState([])
+  const [curStateList, setCurStateList] = useState([])
   useEffect(() => {
     fetch('/api/getAddress', {
       method: "POST",
@@ -31,13 +32,20 @@ export function AddressSelector({requestInfo, setRequestInfo, start}: {requestIn
         className="col-span-full"
         label="国家"
         name="country"
-        level={1}
+        level={0}
         value={address.country}
-        onChange={async (e) => {
-          setAddress({
-            ...address,
-            country: e.target.value
-          })
+        onChange={(e) => {
+          if(start){
+            setRequestInfo({
+              ...requestInfo,
+              startpoint: e.target.value
+            })
+          } else {
+            setRequestInfo({
+              ...requestInfo,
+              endpoint: e.target.value
+            })
+          }
         }}
         required
       >

@@ -57,10 +57,10 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
           name="way"
           level={0}
           value={requestInfo.type_of_shipping}
-          onChange={(e) => setRequestInfo({
+          onChange={(e) => {setRequestInfo({
             ...requestInfo,
             type_of_shipping: e.target.value
-          })}
+          })}}
           required
         >
           <option selected>请选择</option>
