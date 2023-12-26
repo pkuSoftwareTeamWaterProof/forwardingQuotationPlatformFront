@@ -80,7 +80,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
           required
         />
         <TextField
-          label="重量"
+          label="重量(t)"
           name="weight"
           level={0}
           type="text"
@@ -92,7 +92,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
           required
         />
         <TextField
-          label="体积"
+          label="体积(m^3)"
           name="size"
           level={0}
           type="text"

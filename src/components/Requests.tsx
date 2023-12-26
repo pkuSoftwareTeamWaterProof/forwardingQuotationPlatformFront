@@ -74,7 +74,10 @@ export function Requests({ type }: { type: "firm" | "customer"}) {
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {
                   Array.from(requests).map((request: sheet) => {
-                    const answer = answers.filter(answer => (answer[0]? (answer[0].sheetID === request.id): false))[0]
+                    //???这里功能不对吧???
+                    //怎么感觉只有第一个报价
+                    const answerList = answers.filter(answer => (answer[0]? (answer[0].sheetID === request.id): false))
+                    const answer = answerList[0]
                     return (
                       <tr key={request.createdAt}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{request.startpoint}</td>
@@ -137,21 +140,25 @@ export function Requests({ type }: { type: "firm" | "customer"}) {
                           type="button" 
                           className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                           onClick={async (e) => {
-                            e.preventDefault()
-                            await fetch(apiURL + '/api/order/create', {
-                              method: "POST",
-                              mode: "cors",
-                              headers: {
-                                "accept": "*/*",
-                                "Content-Type": "application/json",
-                              },
-                              body: JSON.stringify({
-                                "sheetid": request.id,
-                                "answerid": answer[0].id,
-                                "context": "成交"
+                            if(answerList.length){
+                              e.preventDefault()
+                              await fetch(apiURL + '/api/order/create', {
+                                method: "POST",
+                                mode: "cors",
+                                headers: {
+                                  "accept": "*/*",
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  "sheetid": request.id,
+                                  "answerid": answer[0].id,
+                                  "context": "成交"
+                                })
                               })
-                            })
-                            alert("下单成功")
+                              alert("下单成功")
+                            } else {
+                              alert("暂无报价！")
+                            }
                           }}
                         >
                           下单
