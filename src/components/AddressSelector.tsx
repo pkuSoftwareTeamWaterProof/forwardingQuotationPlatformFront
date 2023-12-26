@@ -35,6 +35,10 @@ export function AddressSelector({requestInfo, setRequestInfo, start}: {requestIn
         level={0}
         value={address.country}
         onChange={(e) => {
+          setAddress({
+            ...address,
+            country: e.target.value
+          })
           if(start){
             setRequestInfo({
               ...requestInfo,
