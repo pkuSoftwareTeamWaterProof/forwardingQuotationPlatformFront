@@ -1,6 +1,7 @@
-export { apiURL }
+export { apiURL,apiPath }
 
 const apiURL = 'http://localhost:3001'
+const apiPath = '/api'
 
 export interface request {
     startpoint: string,

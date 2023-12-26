@@ -1,6 +1,7 @@
 'use client'
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
+import { Evals } from "./Evals";
 
 export function Info() {
     const [isClient, setIsClient] = useState(false)
@@ -23,6 +24,7 @@ export function Info() {
         <h2 className="mt-0 text-lg font-semibold text-gray-900">
             {"电话：" + getCookie('telephone')}
         </h2>
+        {getCookie('role') == 'forwarder'?<Evals/>:<></>}
         </>
     ) : <></>
 }
