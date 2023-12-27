@@ -1,12 +1,20 @@
 'use client'
-import { answer, apiURL, order, sheet } from "@/config"
+import { answer, apiPath, apiURL, order, sheet } from "@/config"
 import { getCookie, getCookies } from "cookies-next"
 import { useEffect, useState } from "react"
+import { EvalForm } from "./EvalForm"
 
 export function Orders({ type }: { type: "firm" | "customer"}) {
   const [orders, setOrders]: [order[], Function] = useState([])
   const [sheets, setSheets]: [sheet[], Function] = useState([])
   const [answers, setAnswers]: [answer[], Function] = useState([])
+  const [evalInfo, setEvalInfo]:[{
+    score : 1|2|3|4|5,
+    comment : string
+  },Function] = useState({
+    score : 5,
+    comment : ""
+  })
   useEffect(() => {
     fetch(apiURL + '/api/order/' + (type === 'firm'? 'forwardid/': 'cusromerid/') + getCookie('id'), {
         method: "GET", // *GET, POST, PUT, DELETE, etc.
@@ -72,6 +80,10 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
                   <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">起始时间</th>
                   <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">终止时间</th>
                   <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">报价</th>
+                  {type === 'customer'?(<>
+                    <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">评价</th>
+                  </>):<></>}
+                  
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -93,6 +105,32 @@ export function Orders({ type }: { type: "firm" | "customer"}) {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.startdate}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{sheet.enddate}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{answer.price}</td>
+                        {type === 'customer'?(<>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                          <EvalForm evalInfo={evalInfo} setEvalInfo={setEvalInfo}/>
+                          <button 
+                            type="button" 
+                            className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                            onClick={(async (e) => {
+                              e.preventDefault()
+                              await fetch(apiURL + apiPath + '/evaluation/create',{
+                                method:"POST",
+                                mode:"cors",
+                                headers:{
+                                  "accept":"*/*",
+                                  "Content-Type":"application/json"
+                                },
+                                body:JSON.stringify({
+                                  ...evalInfo,
+                                  orderId:order.id
+                                })
+                              })
+                              alert("评价成功")
+                            })}
+                          >
+                            提交
+                          </button>
+                        </td></>):<></>}
                       </tr>)
                     
                     }
