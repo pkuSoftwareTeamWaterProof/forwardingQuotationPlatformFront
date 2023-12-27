@@ -57,10 +57,10 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
           name="way"
           level={0}
           value={requestInfo.type_of_shipping}
-          onChange={(e) => setRequestInfo({
+          onChange={(e) => {setRequestInfo({
             ...requestInfo,
             type_of_shipping: e.target.value
-          })}
+          })}}
           required
         >
           <option selected>请选择</option>
@@ -80,7 +80,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
           required
         />
         <TextField
-          label="重量"
+          label="重量(t)"
           name="weight"
           level={0}
           type="text"
@@ -92,7 +92,7 @@ export default function NewRequest({ setContent }: { setContent: Function }) {
           required
         />
         <TextField
-          label="体积"
+          label="体积(m^3)"
           name="size"
           level={0}
           type="text"

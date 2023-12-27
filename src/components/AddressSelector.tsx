@@ -3,7 +3,66 @@ import { useEffect, useState } from "react";
 import { SelectField, TextField } from "./Fields";
 import { request } from "@/config";
 
-export function AddressSelector({ requestInfo, setRequestInfo, start }: { requestInfo: request ,setRequestInfo: Function, start: boolean }){
+// 太多了，货代为什么要精确到街道？现实中精确到城市就够了。
+// 为了实现方便，避免由于地区数据缺失导致的bug，这里只精确到国家
+export function AddressSelector({requestInfo, setRequestInfo, start}: {requestInfo: request, setRequestInfo: Function, start: boolean}){
+  const [address, setAddress] = useState({
+    country: ""
+  })
+  const [curCountryList, setCurCountryList] = useState([])
+  const [curStateList, setCurStateList] = useState([])
+  useEffect(() => {
+    fetch('/api/getAddress', {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "accept": "*//*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({level: 0, prev: ""})
+    }).then(res => res.json())
+      .then(data => setCurCountryList(data))
+  }, [])
+  return (
+    <>
+      <h3 className="mt-0 text-base font-semibold text-gray-900">
+        {start? "起点": "终点"}
+      </h3>
+      <SelectField
+        className="col-span-full"
+        label="国家"
+        name="country"
+        level={0}
+        value={address.country}
+        onChange={(e) => {
+          setAddress({
+            ...address,
+            country: e.target.value
+          })
+          if(start){
+            setRequestInfo({
+              ...requestInfo,
+              startpoint: e.target.value
+            })
+          } else {
+            setRequestInfo({
+              ...requestInfo,
+              endpoint: e.target.value
+            })
+          }
+        }}
+        required
+      >
+        <option selected>请选择</option>
+        {curCountryList.map(addr => (
+          <option>{addr}</option>
+        ))}
+      </SelectField>
+    </>
+  )
+}
+
+/*export function AddressSelector({ requestInfo, setRequestInfo, start }: { requestInfo: request ,setRequestInfo: Function, start: boolean }){
     const [address, setAddress] = useState({
         "country": "",
         "state": "",
@@ -22,7 +81,7 @@ export function AddressSelector({ requestInfo, setRequestInfo, start }: { reques
             method: "POST",
             mode: "no-cors",
             headers: {
-                "accept": "*/*",
+                "accept": "*//*",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({level: 0, prev: ""})
@@ -51,7 +110,7 @@ export function AddressSelector({ requestInfo, setRequestInfo, start }: { reques
                             method: "POST",
                             mode: "no-cors",
                             headers: {
-                                "accept": "*/*",
+                                "accept": "*//*",
                                 "Content-Type": "application/json"
                             },
                             body: JSON.stringify({level: 1, prev: e.target.value})
@@ -81,7 +140,7 @@ export function AddressSelector({ requestInfo, setRequestInfo, start }: { reques
                             method: "POST",
                             mode: "no-cors",
                             headers: {
-                                "accept": "*/*",
+                                "accept": "*//*",
                                 "Content-Type": "application/json"
                             },
                             body: JSON.stringify({level: 2, prev: e.target.value})
@@ -111,7 +170,7 @@ export function AddressSelector({ requestInfo, setRequestInfo, start }: { reques
                             method: "POST",
                             mode: "no-cors",
                             headers: {
-                                "accept": "*/*",
+                                "accept": "*//*",
                                 "Content-Type": "application/json"
                             },
                             body: JSON.stringify({level: 3, prev: e.target.value})
@@ -175,4 +234,4 @@ export function AddressSelector({ requestInfo, setRequestInfo, start }: { reques
         </div>
         </>
     )
-}
+}*/
