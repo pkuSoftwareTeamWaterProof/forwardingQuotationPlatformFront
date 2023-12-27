@@ -33,7 +33,7 @@ export function Evals(){
   return <>
     <h2 className="mt-0 text-lg font-semibold text-gray-900">{"评分："+String(avg.score === null?NaN:avg.score)}</h2>
     <div>
-      {evals.map(entry => <EvalLabel comment={entry.comment} score={entry.score}/>)}
+      {evals.map(entry => <EvalLabel comment={entry.comment} score={entry.score} key={entry.id}/>)}
     </div>
   </>
 }

@@ -54,8 +54,8 @@ export function AddressSelector({requestInfo, setRequestInfo, start}: {requestIn
         required
       >
         <option selected>请选择</option>
-        {curCountryList.map(addr => (
-          <option>{addr}</option>
+        {curCountryList.map((addr) => (
+          <option key={addr}>{addr}</option>
         ))}
       </SelectField>
     </>

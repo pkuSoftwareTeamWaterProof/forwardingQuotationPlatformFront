@@ -3,7 +3,6 @@ import { answer, apiURL, sheet } from "@/config"
 import { getCookie, getCookies } from "cookies-next"
 import { useEffect, useState } from "react"
 import { AnswerForm } from "./AnswerForm"
-import { Princess_Sofia } from "next/font/google"
 
 export function Requests({ type }: { type: "firm" | "customer"}) {
   const [requests, setRequests] = useState([])

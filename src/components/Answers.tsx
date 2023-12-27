@@ -2,7 +2,6 @@
 import { answer, apiURL, sheet } from "@/config"
 import { getCookie, getCookies } from "cookies-next"
 import { useEffect, useState } from "react"
-import { Princess_Sofia } from "next/font/google"
 
 export function Answers() {
   const [answers, setAnswers] = useState([])

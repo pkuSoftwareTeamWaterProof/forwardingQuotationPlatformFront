@@ -61,6 +61,7 @@ export default function Register() {
           >
         <SelectField
           className="col-span-full"
+          level={0}
           label="用户类型"
           name="role"
           autoComplete="organization-title"
@@ -77,6 +78,7 @@ export default function Register() {
         </SelectField>
         <TextField
           className="col-span-full"
+          level={0}
           label="用户名"
           name="username"
           type="username"
@@ -90,6 +92,7 @@ export default function Register() {
         />
         <TextField
           className="col-span-full"
+          level={0}
           label="密码"
           name="password"
           type="password"
@@ -103,6 +106,7 @@ export default function Register() {
         />
         <TextField
           className="col-span-full"
+          level={0}
           label="电话"
           name="telephone"
           type="telephone"
@@ -116,6 +120,7 @@ export default function Register() {
         />
         <TextField
           className="col-span-full"
+          level={0}
           label="邮箱"
           name="email"
           type="email"
